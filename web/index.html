@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!--
+    If you are serving your web app in a path other than the root, change the
+    href value below to reflect the base path you are serving from.
+
+    The path provided below has to start and end with a slash "/" in order for
+    it to work correctly.
+
+    For more details:
+    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+
+    This is a placeholder for base href that will be replaced by the value of
+    the `--base-href` argument provided to `flutter build`.
+  -->
+  <base href="$FLUTTER_BASE_HREF">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="A new Flutter project.">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="sifirlandi">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <title>Sıfırlandı!</title>
+  <link rel="manifest" href="manifest.json">
+  <style>
+    body {
+      background-color: #121214;
+      margin: 0;
+      padding: 0;
+    }
+    #loading-indicator {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #121214;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 99999;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    .loader-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    .logo-container {
+      font-size: 64px;
+      animation: pulse 1.6s infinite ease-in-out;
+      margin-bottom: 24px;
+      user-select: none;
+    }
+    .spinner {
+      width: 52px;
+      height: 52px;
+      border: 4px solid rgba(255, 45, 85, 0.1);
+      border-radius: 50%;
+      border-top: 4px solid #FF2D55;
+      animation: spin 1s infinite linear;
+      box-shadow: 0 0 15px rgba(255, 45, 85, 0.3);
+      margin-bottom: 20px;
+    }
+    .loading-text {
+      color: #FFFFFF;
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      margin: 0;
+      background: linear-gradient(135deg, #FF2D55 0%, #B57C8A 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 20px rgba(255, 45, 85, 0.15);
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); filter: drop-shadow(0 0 5px rgba(255, 45, 85, 0.3)); }
+      50% { transform: scale(1.15); filter: drop-shadow(0 0 20px rgba(255, 45, 85, 0.7)); }
+    }
+  </style>
+</head>
+<body>
+  <div id="loading-indicator">
+    <div class="loader-content">
+      <div class="logo-container">🚨</div>
+      <div class="spinner"></div>
+      <h1 class="loading-text">Sıfırlandı!</h1>
+    </div>
+  </div>
+
+  <script>
+    // Fade out and remove loading indicator when Flutter renders first frame
+    window.addEventListener('flutter-first-frame', function() {
+      const loader = document.getElementById('loading-indicator');
+      if (loader) {
+        loader.style.transition = 'opacity 0.6s ease-out';
+        loader.style.opacity = '0';
+        setTimeout(() => loader.remove(), 600);
+      }
+    });
+  </script>
+
+  <!--
+    You can customize the "flutter_bootstrap.js" script.
+    This is useful to provide a custom configuration to the Flutter loader
+    or to give the user feedback during the initialization process.
+
+    For more details:
+    * https://docs.flutter.dev/platform-integration/web/initialization
+  -->
+  <script>
+    function downloadFileFromBytes(base64Data, fileName) {
+      const link = document.createElement('a');
+      link.href = 'data:image/png;base64,' + base64Data;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    let audioCtx = null;
+    function getAudioContext() {
+      if (!audioCtx) {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (AudioContext) audioCtx = new AudioContext();
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    window.playSifirlandiSound = function(effect) {
+      try {
+        const ctx = getAudioContext();
+        if (!ctx) return;
+        const now = ctx.currentTime;
+
+        if (effect === 'siren') {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(450, now);
+          osc.frequency.linearRampToValueAtTime(950, now + 0.25);
+          osc.frequency.linearRampToValueAtTime(450, now + 0.5);
+          osc.frequency.linearRampToValueAtTime(950, now + 0.75);
+          osc.frequency.linearRampToValueAtTime(450, now + 1.0);
+          gain.gain.setValueAtTime(0.2, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 1.1);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 1.1);
+        } else if (effect === 'crash') {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'square';
+          osc.frequency.setValueAtTime(800, now);
+          osc.frequency.exponentialRampToValueAtTime(60, now + 0.4);
+          gain.gain.setValueAtTime(0.3, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.4);
+        } else if (effect === 'sadTrombone') {
+          const notes = [330, 311, 293, 277];
+          notes.forEach((freq, idx) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(freq, now + (idx * 0.22));
+            gain.gain.setValueAtTime(0.25, now + (idx * 0.22));
+            gain.gain.exponentialRampToValueAtTime(0.001, now + (idx * 0.22) + 0.25);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now + (idx * 0.22));
+            osc.stop(now + (idx * 0.22) + 0.28);
+          });
+        } else if (effect === 'victory') {
+          const notes = [440, 554, 659, 880];
+          notes.forEach((freq, idx) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, now + (idx * 0.1));
+            gain.gain.setValueAtTime(0.25, now + (idx * 0.1));
+            gain.gain.exponentialRampToValueAtTime(0.001, now + (idx * 0.1) + 0.35);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now + (idx * 0.1));
+            osc.stop(now + (idx * 0.1) + 0.38);
+          });
+        } else if (effect === 'click') {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(1200, now);
+          gain.gain.setValueAtTime(0.15, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.05);
+        }
+      } catch (e) {
+        console.error('Sound error:', e);
+      }
+    };
+  </script>
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>
