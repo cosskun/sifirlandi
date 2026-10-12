@@ -73,12 +73,16 @@ class _PublicCounterDetailScreenState extends State<PublicCounterDetailScreen> {
           children: [
             const Icon(Icons.warning_amber_rounded, color: Color(0xFFFF2D55)),
             const SizedBox(width: 8),
-            Text(
-              widget.currentLanguage == 'tr' ? "Trend Sayacı Sıfırla" : "Reset Trend Counter",
-              style: TextStyle(
-                color: isDark ? const Color(0xFFFF2D55) : const Color(0xFF800020),
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
+            Expanded(
+              child: Text(
+                widget.currentLanguage == 'tr' ? "Trend Sayacı Sıfırla" : "Reset Trend Counter",
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: isDark ? const Color(0xFFFF2D55) : const Color(0xFF800020),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
               ),
             ),
           ],
@@ -357,17 +361,20 @@ class _PublicCounterDetailScreenState extends State<PublicCounterDetailScreen> {
                           const SizedBox(height: 20),
 
                           // Digital Counter
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              _buildSegment(days.toString().padLeft(2, '0'), "GÜN", isDark),
-                              const SizedBox(width: 6),
-                              _buildSegment(hours.toString().padLeft(2, '0'), "SAAT", isDark),
-                              const SizedBox(width: 6),
-                              _buildSegment(minutes.toString().padLeft(2, '0'), "DAKİKA", isDark),
-                              const SizedBox(width: 6),
-                              _buildSegment(seconds.toString().padLeft(2, '0'), "SANİYE", isDark),
-                            ],
+                          FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                _buildSegment(days.toString().padLeft(2, '0'), "GÜN", isDark),
+                                const SizedBox(width: 6),
+                                _buildSegment(hours.toString().padLeft(2, '0'), "SAAT", isDark),
+                                const SizedBox(width: 6),
+                                _buildSegment(minutes.toString().padLeft(2, '0'), "DAKİKA", isDark),
+                                const SizedBox(width: 6),
+                                _buildSegment(seconds.toString().padLeft(2, '0'), "SANİYE", isDark),
+                              ],
+                            ),
                           ),
                           const SizedBox(height: 16),
 
@@ -406,15 +413,20 @@ class _PublicCounterDetailScreenState extends State<PublicCounterDetailScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          widget.currentLanguage == 'tr' ? "CANLI TOPLULUK AKIŞI" : "COMMUNITY FEED",
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w900,
-                            color: isDark ? const Color(0xFFFF2D55) : const Color(0xFF800020),
-                            letterSpacing: 1.0,
+                        Expanded(
+                          child: Text(
+                            widget.currentLanguage == 'tr' ? "CANLI TOPLULUK AKIŞI" : "COMMUNITY FEED",
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w900,
+                              color: isDark ? const Color(0xFFFF2D55) : const Color(0xFF800020),
+                              letterSpacing: 1.0,
+                            ),
                           ),
                         ),
+                        const SizedBox(width: 8),
                         Text(
                           "${_counter.recentComments.length} Yorum",
                           style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFFB57C8A)),

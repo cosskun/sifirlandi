@@ -187,6 +187,8 @@ class _StoryShareModalState extends State<StoryShareModal> {
                         const SizedBox(height: 12),
                         Text(
                           widget.profile.name,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.w900,
@@ -195,6 +197,8 @@ class _StoryShareModalState extends State<StoryShareModal> {
                         ),
                         Text(
                           widget.profile.title,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontSize: 13,
                             color: Colors.white.withValues(alpha: 0.8),

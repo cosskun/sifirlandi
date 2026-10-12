@@ -429,11 +429,15 @@ class _ProfileDetailScreenState extends State<ProfileDetailScreen> with SingleTi
           children: [
             Icon(Icons.warning_amber_rounded, color: isDark ? const Color(0xFFFF2D55) : const Color(0xFF800020), size: 28),
             const SizedBox(width: 10),
-            Text(
-              _getTxt('addResetTitle'),
-              style: TextStyle(
-                color: isDark ? const Color(0xFFFF2D55) : const Color(0xFF800020),
-                fontWeight: FontWeight.bold,
+            Expanded(
+              child: Text(
+                _getTxt('addResetTitle'),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: isDark ? const Color(0xFFFF2D55) : const Color(0xFF800020),
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ],
@@ -499,8 +503,9 @@ class _ProfileDetailScreenState extends State<ProfileDetailScreen> with SingleTi
           backgroundColor: isDark ? const Color(0xFF1E1E22) : const Color(0xFFFAF6F0),
           child: Padding(
             padding: const EdgeInsets.all(24.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
                   padding: const EdgeInsets.all(16),
@@ -635,6 +640,7 @@ class _ProfileDetailScreenState extends State<ProfileDetailScreen> with SingleTi
               ],
             ),
           ),
+        ),
         );
       },
     );
@@ -1827,17 +1833,20 @@ class _ProfileDetailScreenState extends State<ProfileDetailScreen> with SingleTi
 
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _buildTimeSegment(days.toString().padLeft(2, '0'), _getTxt('day')),
-            _buildTimeColon(),
-            _buildTimeSegment(hours.toString().padLeft(2, '0'), _getTxt('hour')),
-            _buildTimeColon(),
-            _buildTimeSegment(minutes.toString().padLeft(2, '0'), _getTxt('min')),
-            _buildTimeColon(),
-            _buildTimeSegment(seconds.toString().padLeft(2, '0'), _getTxt('sec')),
-          ],
+        FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _buildTimeSegment(days.toString().padLeft(2, '0'), _getTxt('day')),
+              _buildTimeColon(),
+              _buildTimeSegment(hours.toString().padLeft(2, '0'), _getTxt('hour')),
+              _buildTimeColon(),
+              _buildTimeSegment(minutes.toString().padLeft(2, '0'), _getTxt('min')),
+              _buildTimeColon(),
+              _buildTimeSegment(seconds.toString().padLeft(2, '0'), _getTxt('sec')),
+            ],
+          ),
         ),
       ],
     );
@@ -1931,34 +1940,41 @@ class _ProfileDetailScreenState extends State<ProfileDetailScreen> with SingleTi
       child: Stack(
         children: [
           Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-                  decoration: BoxDecoration(
-                    color: Colors.amber.shade800,
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: const Text(
-                    "AD",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 8,
-                      fontWeight: FontWeight.bold,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 12, right: 36),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: Colors.amber.shade800,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: const Text(
+                      "AD",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 8,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  _getTxt('adBanner'),
-                  style: TextStyle(
-                    fontSize: 11,
-                    color: isDark ? Colors.grey.shade400 : Colors.grey.shade700,
-                    fontWeight: FontWeight.bold,
+                  const SizedBox(width: 8),
+                  Flexible(
+                    child: Text(
+                      _getTxt('adBanner'),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 11,
+                        color: isDark ? Colors.grey.shade400 : Colors.grey.shade700,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           Positioned(
@@ -2342,8 +2358,9 @@ class _ProfileDetailScreenState extends State<ProfileDetailScreen> with SingleTi
                                       Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Row(
-                                            children: [
+                                          Expanded(
+                                            child: Row(
+                                              children: [
                                               Container(
                                                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                                                 decoration: BoxDecoration(
@@ -2367,7 +2384,9 @@ class _ProfileDetailScreenState extends State<ProfileDetailScreen> with SingleTi
                                               ),
                                             ],
                                           ),
-                                          IconButton(
+                                        ),
+                                        const SizedBox(width: 6),
+                                        IconButton(
                                             icon: const Icon(Icons.copy_rounded, size: 18),
                                             tooltip: "Kodu Kopyala",
                                             onPressed: () {
@@ -2603,15 +2622,20 @@ class _ProfileDetailScreenState extends State<ProfileDetailScreen> with SingleTi
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              _getTxt('historyHeader'),
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w900,
-                                color: isDark ? const Color(0xFFFF2D55) : const Color(0xFF800020),
-                                letterSpacing: 1.0,
+                            Expanded(
+                              child: Text(
+                                _getTxt('historyHeader'),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w900,
+                                  color: isDark ? const Color(0xFFFF2D55) : const Color(0xFF800020),
+                                  letterSpacing: 1.0,
+                                ),
                               ),
                             ),
+                            const SizedBox(width: 8),
                             Text(
                               "${_profile.resets.length} ${_profile.resets.length == 1 ? 'Log' : 'Logs'}",
                               style: const TextStyle(
@@ -2742,12 +2766,16 @@ class _ProfileDetailScreenState extends State<ProfileDetailScreen> with SingleTi
                                                 color: Color(0xFFB57C8A),
                                               ),
                                               const SizedBox(width: 4),
-                                              Text(
-                                                intervalText,
-                                                style: const TextStyle(
-                                                  fontSize: 11,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Color(0xFFB57C8A),
+                                              Expanded(
+                                                child: Text(
+                                                  intervalText,
+                                                  maxLines: 1,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  style: const TextStyle(
+                                                    fontSize: 11,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Color(0xFFB57C8A),
+                                                  ),
                                                 ),
                                               ),
                                             ],
@@ -2928,21 +2956,28 @@ class _ProfileDetailScreenState extends State<ProfileDetailScreen> with SingleTi
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  const Text("🏅", style: TextStyle(fontSize: 18)),
-                  const SizedBox(width: 8),
-                  Text(
-                    widget.currentLanguage == 'tr' ? "BAŞARI ROZETLERİ" : "MILESTONES",
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w900,
-                      letterSpacing: 1.0,
-                      color: isDark ? const Color(0xFFFF2D55) : const Color(0xFF800020),
+              Expanded(
+                child: Row(
+                  children: [
+                    const Text("🏅", style: TextStyle(fontSize: 18)),
+                    const SizedBox(width: 8),
+                    Flexible(
+                      child: Text(
+                        widget.currentLanguage == 'tr' ? "BAŞARI ROZETLERİ" : "MILESTONES",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w900,
+                          letterSpacing: 1.0,
+                          color: isDark ? const Color(0xFFFF2D55) : const Color(0xFF800020),
+                        ),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
+              const SizedBox(width: 8),
               Text(
                 "${unlocked.length}/${MilestoneService.badges.length} ${widget.currentLanguage == 'tr' ? 'Açık' : 'Unlocked'}",
                 style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.amber),
@@ -3174,4 +3209,3 @@ class _ProfileDetailScreenState extends State<ProfileDetailScreen> with SingleTi
     );
   }
 }
-

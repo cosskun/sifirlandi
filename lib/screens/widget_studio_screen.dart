@@ -164,37 +164,44 @@ class _WidgetStudioScreenState extends State<WidgetStudioScreen> {
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(color: isDark ? Colors.grey.shade800 : const Color(0xFFE8D0D5)),
               ),
-              child: DropdownButtonHideUnderline(
-                child: DropdownButton<CounterProfile>(
-                  value: widget.profiles.contains(_selectedProfile) ? _selectedProfile : (widget.profiles.isNotEmpty ? widget.profiles.first : _selectedProfile),
-                  isExpanded: true,
-                  dropdownColor: isDark ? const Color(0xFF1E1E22) : Colors.white,
-                  items: widget.profiles.map((p) {
-                    return DropdownMenuItem<CounterProfile>(
-                      value: p,
-                      child: Row(
-                        children: [
-                          Text(p.avatarEmoji, style: const TextStyle(fontSize: 18)),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: Text(
-                              p.title,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(fontWeight: FontWeight.bold, color: isDark ? Colors.white : Colors.black87),
-                            ),
+              child: Builder(
+                builder: (context) {
+                  final displayProfiles = widget.profiles.isNotEmpty ? widget.profiles : [_selectedProfile];
+                  final currentValue = displayProfiles.contains(_selectedProfile) ? _selectedProfile : displayProfiles.first;
+
+                  return DropdownButtonHideUnderline(
+                    child: DropdownButton<CounterProfile>(
+                      value: currentValue,
+                      isExpanded: true,
+                      dropdownColor: isDark ? const Color(0xFF1E1E22) : Colors.white,
+                      items: displayProfiles.map((p) {
+                        return DropdownMenuItem<CounterProfile>(
+                          value: p,
+                          child: Row(
+                            children: [
+                              Text(p.avatarEmoji, style: const TextStyle(fontSize: 18)),
+                              const SizedBox(width: 10),
+                              Expanded(
+                                child: Text(
+                                  p.title,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(fontWeight: FontWeight.bold, color: isDark ? Colors.white : Colors.black87),
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    );
-                  }).toList(),
-                  onChanged: (val) {
-                    if (val != null) {
-                      SoundService.play(SoundEffect.click);
-                      setState(() => _selectedProfile = val);
-                    }
-                  },
-                ),
+                        );
+                      }).toList(),
+                      onChanged: (val) {
+                        if (val != null) {
+                          SoundService.play(SoundEffect.click);
+                          setState(() => _selectedProfile = val);
+                        }
+                      },
+                    ),
+                  );
+                },
               ),
             ),
             const SizedBox(height: 20),

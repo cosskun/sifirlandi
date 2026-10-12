@@ -202,23 +202,32 @@ class _CourtVetoDialogState extends State<CourtVetoDialog> {
               ],
             ),
             const SizedBox(height: 6),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: SizedBox(
-                height: 10,
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: (yesRatio * 100).toInt(),
-                      child: Container(color: Colors.green.shade600),
+            Builder(
+              builder: (context) {
+                int yesFlex = (yesRatio * 100).round();
+                if (yesFlex < 1) yesFlex = 1;
+                if (yesFlex > 99) yesFlex = 99;
+                final int noFlex = 100 - yesFlex;
+
+                return ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: SizedBox(
+                    height: 10,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: yesFlex,
+                          child: Container(color: Colors.green.shade600),
+                        ),
+                        Expanded(
+                          flex: noFlex,
+                          child: Container(color: Colors.red.shade400),
+                        ),
+                      ],
                     ),
-                    Expanded(
-                      flex: ((1 - yesRatio) * 100).toInt(),
-                      child: Container(color: Colors.red.shade400),
-                    ),
-                  ],
-                ),
-              ),
+                  ),
+                );
+              },
             ),
             const SizedBox(height: 20),
 

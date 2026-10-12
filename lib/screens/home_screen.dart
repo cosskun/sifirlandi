@@ -49,6 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
       'emojiLabel': 'Simge Seçimi (Emoji)',
       'cancel': 'Vazgeç',
       'create': 'Oluştur',
+      'confirm': 'Sıfırla!',
       'clumsy': 'Sakarlık', 'meeting': 'Buluşma', 'diet': 'Diyet', 'relationship': 'İlişki', 'custom': 'Özel',
       'days': 'Gün', 'hours': 'Saat', 'mins': 'Dk', 'secs': 'Sn',
       'resetsCount': '{count} Sıfırlama',
@@ -84,6 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
       'emojiLabel': 'Select Icon (Emoji)',
       'cancel': 'Cancel',
       'create': 'Create',
+      'confirm': 'Reset!',
       'clumsy': 'Clumsiness', 'meeting': 'Meeting', 'diet': 'Diet', 'relationship': 'Relationship', 'custom': 'Custom',
       'days': 'Days', 'hours': 'Hrs', 'mins': 'Mins', 'secs': 'Secs',
       'resetsCount': '{count} Resets',
@@ -382,12 +384,16 @@ class _HomeScreenState extends State<HomeScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            _getTxt('addProfileTitle'),
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w900,
-                              color: isDark ? const Color(0xFFFF2D55) : const Color(0xFF800020),
+                          Expanded(
+                            child: Text(
+                              _getTxt('addProfileTitle'),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w900,
+                                color: isDark ? const Color(0xFFFF2D55) : const Color(0xFF800020),
+                              ),
                             ),
                           ),
                           IconButton(
@@ -559,23 +565,26 @@ class _HomeScreenState extends State<HomeScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                _currentLanguage == 'tr' ? "Ortak (Çok Oyunculu) Sayaç" : "Shared (Multiplayer) Counter",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 12.5,
-                                  color: isDark ? const Color(0xFFFF2D55) : const Color(0xFF800020),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  _currentLanguage == 'tr' ? "Ortak (Çok Oyunculu) Sayaç" : "Shared (Multiplayer) Counter",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12.5,
+                                    color: isDark ? const Color(0xFFFF2D55) : const Color(0xFF800020),
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                _currentLanguage == 'tr' ? "Arkadaşlarınızla kodu paylaşarak yönetin" : "Share room code with friends to manage",
-                                style: TextStyle(fontSize: 9.5, color: Colors.grey.shade500),
-                              ),
-                            ],
+                                Text(
+                                  _currentLanguage == 'tr' ? "Arkadaşlarınızla kodu paylaşarak yönetin" : "Share room code with friends to manage",
+                                  style: TextStyle(fontSize: 9.5, color: Colors.grey.shade500),
+                                ),
+                              ],
+                            ),
                           ),
+                          const SizedBox(width: 8),
                           Switch(
                             value: isSharedCounter,
                             activeColor: isDark ? const Color(0xFFFF2D55) : const Color(0xFF800020),
@@ -657,11 +666,15 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Icon(Icons.warning_amber_rounded, color: isDark ? const Color(0xFFFF2D55) : const Color(0xFF800020), size: 28),
             const SizedBox(width: 10),
-            Text(
-              _getTxt('quickResetTitle'),
-              style: TextStyle(
-                color: isDark ? const Color(0xFFFF2D55) : const Color(0xFF800020),
-                fontWeight: FontWeight.bold,
+            Expanded(
+              child: Text(
+                _getTxt('quickResetTitle'),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: isDark ? const Color(0xFFFF2D55) : const Color(0xFF800020),
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ],
@@ -763,8 +776,9 @@ class _HomeScreenState extends State<HomeScreen> {
           backgroundColor: isDark ? const Color(0xFF1E1E22) : const Color(0xFFFAF6F0),
           child: Padding(
             padding: const EdgeInsets.all(24.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
                   padding: const EdgeInsets.all(16),
@@ -844,6 +858,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
+        ),
         );
       },
     );
@@ -1012,34 +1027,41 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Stack(
         children: [
           Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-                  decoration: BoxDecoration(
-                    color: Colors.amber.shade800,
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: const Text(
-                    "AD",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 8,
-                      fontWeight: FontWeight.bold,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 12, right: 36),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: Colors.amber.shade800,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: const Text(
+                      "AD",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 8,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  _getTxt('adBanner'),
-                  style: TextStyle(
-                    fontSize: 11,
-                    color: isDark ? Colors.grey.shade400 : Colors.grey.shade700,
-                    fontWeight: FontWeight.bold,
+                  const SizedBox(width: 8),
+                  Flexible(
+                    child: Text(
+                      _getTxt('adBanner'),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 11,
+                        color: isDark ? Colors.grey.shade400 : Colors.grey.shade700,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           // Close button link to go premium
@@ -1278,9 +1300,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     Icon(SoundService.isSoundEnabled ? Icons.volume_up_rounded : Icons.volume_off_rounded, size: 20),
                     const SizedBox(width: 10),
-                    Text(SoundService.isSoundEnabled
-                        ? (_currentLanguage == 'tr' ? "Ses Efektleri (Açık)" : "Sound FX (On)")
-                        : (_currentLanguage == 'tr' ? "Ses Efektleri (Kapalı)" : "Sound FX (Off)")),
+                    Expanded(
+                      child: Text(
+                        SoundService.isSoundEnabled
+                            ? (_currentLanguage == 'tr' ? "Ses Efektleri (Açık)" : "Sound FX (On)")
+                            : (_currentLanguage == 'tr' ? "Ses Efektleri (Kapalı)" : "Sound FX (Off)"),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -1290,7 +1318,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     const Icon(Icons.account_circle_outlined, size: 20),
                     const SizedBox(width: 10),
-                    Text(_currentLanguage == 'tr' ? "Takma Adı Değiştir" : "Change Nickname"),
+                    Expanded(
+                      child: Text(
+                        _currentLanguage == 'tr' ? "Rumuz Değiştir" : "Change Nickname",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -1301,7 +1335,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       Icon(Icons.stars_rounded, color: Colors.amber.shade700, size: 20),
                       const SizedBox(width: 10),
-                      Text(_currentLanguage == 'tr' ? "Premium Mağaza" : "Premium Shop"),
+                      Expanded(
+                        child: Text(
+                          _currentLanguage == 'tr' ? "Premium Mağaza" : "Premium Shop",
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -1312,7 +1352,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     const Icon(Icons.language_rounded, size: 20),
                     const SizedBox(width: 10),
-                    Text(_currentLanguage == 'tr' ? "Switch to English 🇬🇧" : "Türkçe'ye Geç 🇹🇷"),
+                    Expanded(
+                      child: Text(
+                        _currentLanguage == 'tr' ? "Switch to English 🇬🇧" : "Türkçe'ye Geç 🇹🇷",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -1441,7 +1487,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       crossAxisCount: 2,
                       crossAxisSpacing: 12,
                       mainAxisSpacing: 12,
-                      childAspectRatio: 0.85,
+                      childAspectRatio: 0.78,
                     ),
                     itemCount: _profiles.length,
                     itemBuilder: (context, idx) {
@@ -1580,7 +1626,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 crossAxisCount: 2,
                                 crossAxisSpacing: 12,
                                 mainAxisSpacing: 12,
-                                childAspectRatio: 0.85,
+                                childAspectRatio: 0.78,
                               ),
                               itemCount: rooms.length,
                               itemBuilder: (context, idx) {
@@ -1637,7 +1683,7 @@ class _HomeScreenState extends State<HomeScreen> {
         }
       },
       child: Container(
-        padding: const EdgeInsets.all(14),
+        padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
           color: isDark ? const Color(0xFF1E1E22) : Colors.white,
           borderRadius: BorderRadius.circular(24),
